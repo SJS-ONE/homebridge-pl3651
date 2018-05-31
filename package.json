@@ -1,12 +1,11 @@
 {
   "name": "homebridge-pl3651",
   "version": "0.0.6",
-  "description": "",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "sjs.one",
   "license": "ISC",
   "keywords": [
     "homebridge-plugin"
@@ -14,5 +13,14 @@
   "engines": {
     "node": ">=0.12.0",
     "homebridge": ">=0.2.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SJS-ONE/homebridge-pl3651.git"
+  },
+  "bugs": {
+    "url": "https://github.com/SJS-ONE/homebridge-pl3651/issues"
+  },
+  "homepage": "https://github.com/SJS-ONE/homebridge-pl3651#readme",
+  "description": ""
 }
