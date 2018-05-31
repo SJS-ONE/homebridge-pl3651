@@ -109,9 +109,6 @@ PL3651Accessory.prototype.setPowerState = function(value, callback) {
     callback()
 };
 
-
-// MARK: - HUE
-
 PL3651Accessory.prototype.getHue = function(callback) {
 	var color = this.color;
 	this.pl.info((info)=>{
@@ -119,34 +116,29 @@ PL3651Accessory.prototype.getHue = function(callback) {
         callback(null, hsl.H);
     })
 };
-
 PL3651Accessory.prototype.setHue = function(value, callback) {
     this.color.H = value;
     this.log("HUE: %s", value);
+    this.pl.channel(this.channel, {w: 0})
 	this.setToCurrentColor(callback);
 };
 
-// MARK: - BRIGHTNESS
-
 PL3651Accessory.prototype.getBrightness = function(callback) {
-	var brightness = this.brightness;
 	this.pl.info((info)=>{
         let hsl = rgbToHsl(info[this.channel].r, info[this.channel].g, info[this.channel].b)
         callback(null, hsl.L);
     })
 };
-
 PL3651Accessory.prototype.setBrightness = function(value, callback) {
     this.brightness = value;
     this.color.L = this.brightness
     this.log("BRIGHTNESS: %s", value);
+    this.pl.channel(this.channel, {w: 0})
     this.setToCurrentColor(callback);
 };
 
-// MARK: - SATURATION
 
 PL3651Accessory.prototype.getSaturation = function(callback) {
-    var color = this.color;
     this.pl.info((info)=>{
         let hsl = rgbToHsl(info[this.channel].r, info[this.channel].g, info[this.channel].b)
         callback(null, hsl.S);
@@ -157,10 +149,16 @@ PL3651Accessory.prototype.getSaturation = function(callback) {
 PL3651Accessory.prototype.setSaturation = function(value, callback) {
     this.color.S = value;
     this.log("SATURATION: %s", value);
+    this.pl.channel(this.channel, {w: 0})
 	this.setToCurrentColor(callback);
 };
 
 PL3651Accessory.prototype.getColorTemperature = function(callback) {
+    /*
+    let x = Math.floor( (r+g+b)/3 )
+    let tmpRgb = 274.0083*Math.pow(((292.4919-x)/(x+45.36263)), (2258 / 6997))
+    print(Math.floor(tmpRgb))
+     */
     var color = this.color;
     this.pl.info((info)=>{
         let hsl = rgbToHsl(info[this.channel].r, info[this.channel].g, info[this.channel].b)
@@ -172,10 +170,13 @@ PL3651Accessory.prototype.setColorTemperature = function(value, callback) {
     console.log("setColorTemperature")
     console.log(value)
     let ww = 275.5382 + (-1 * 280.5503)/(1 + (value/284.4435)**4.456433)
-    //let rgb = ( -1 * 60.77262) + (328.0498 + 60.77262)/(1 + (value/262.4779) ** 2.616261)
-    
-    // y = − + 
     let rgb = (-1 * 45.36263) + (292.4919 + 45.36263)/(1 + (value/274.0083) ** 3.09876)
+    if(rgb < 20){
+        rgb = 0
+    }
+    if(ww < 20){
+        ww = 0
+    }
     this.pl.channel(this.channel, {w: ww, r: rgb, g: rgb, b: rgb})
     this.setToCurrentColor(callback, true);
 }
