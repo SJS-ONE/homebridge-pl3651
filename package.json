@@ -1,0 +1,18 @@
+{
+  "name": "homebridge-pl3651",
+  "version": "0.0.6",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "keywords": [
+    "homebridge-plugin"
+  ],
+  "engines": {
+    "node": ">=0.12.0",
+    "homebridge": ">=0.2.0"
+  }
+}
